@@ -1,0 +1,106 @@
+<div [hidden]="submitted">
+  <form #heroForm="ngForm" (ngSubmit)="onSubmit()">
+    <div
+      class="form-group"
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        width: 50%;
+        margin: 6rem auto;
+      "
+    >
+      {{ model | json }}
+      <hr />
+      <label for="name">Name</label>
+
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        required
+        [(ngModel)]="model.name"
+        name="name"
+        #name="ngModel"
+      />
+      TODO: remove this: {{ model.name }}
+      <div
+        [hidden]="name.valid || name.pristine"
+        class="alert alert-danger"
+        style="width: 100%"
+      >
+        Name is required
+      </div>
+      <hr />
+      <label for="alterEgo">Alter Ego</label>
+      <input
+        type="text"
+        class="form-control"
+        id="alterEgo"
+        name="alterEgo"
+        [(ngModel)]="model.alterEgo"
+      />
+      <hr />
+      <label for="power">Hero Power</label>
+      <select
+        class="form-control"
+        id="power"
+        [(ngModel)]="model.power"
+        name="power"
+        required
+      >
+        <option *ngFor="let pow of powers" [value]="pow">{{ pow }}</option>
+      </select>
+      <button
+        class="btn btn-info"
+        style="margin-top: 3rem"
+        (click)="newHero(); heroForm.reset()"
+        [disabled]="!heroForm.form.valid"
+      >
+        Add new Hero
+      </button>
+      <button
+        type="submit"
+        class="btn btn-success"
+        style="margin-top: 1.5rem"
+        [disabled]="!heroForm.form.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+<div [hidden]="!submitted">
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      width: 50%;
+      margin: 6rem auto;
+    "
+  >
+    <h2>You submitted the following:</h2>
+    <div class="row" style="margin-top: 2rem">
+      <div class="col-xs-3" style="font-weight: bold">Name</div>
+      <div class="col-xs-10">{{ model.name }}</div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-xs-7" style="font-weight: bold">Alter Ego</div>
+      <div class="col-xs-10">{{ model.alterEgo }}</div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-xs-3" style="font-weight: bold">Power</div>
+      <div class="col-xs-10">{{ model.power }}</div>
+    </div>
+    <hr />
+    <br />
+    <button type="button" class="btn btn-primary" (click)="submitted = false">
+      Edit
+    </button>
+  </div>
+</div>
